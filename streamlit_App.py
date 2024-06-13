@@ -7,6 +7,7 @@ from langchain_community.vectorstores import FAISS
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains.question_answering import load_qa_chain
 from langchain.prompts import PromptTemplate
+import backoff
 import os
 
 st.set_page_config(page_title="Document Genie", layout="wide")
@@ -60,6 +61,10 @@ def get_conversational_chain():
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
     return chain
+
+@backoff.on_exception(backoff.expo, Exception, max_tries=3, jitter=None)
+def embed_query_with_retry(embedding_function, query):
+    return embedding_function.embed_query(query)
 
 def user_input(user_question, api_key):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=api_key)

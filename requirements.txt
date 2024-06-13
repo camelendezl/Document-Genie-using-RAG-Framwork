@@ -122,6 +122,7 @@ starlette==0.37.2
 streamlit==1.35.0
 sympy==1.12.1
 tenacity==8.3.0
+tiktoken
 tokenizers==0.19.1
 toml==0.10.2
 toolz==0.12.1

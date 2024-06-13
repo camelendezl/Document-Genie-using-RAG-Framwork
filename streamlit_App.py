@@ -56,7 +56,7 @@ def get_conversational_chain(api_key):
 
     Respuesta:
     """
-    model = OpenAI(model="text-davinci-003", openai_api_key=api_key)
+    model = OpenAI(model="gpt-3.5-turbo", openai_api_key=api_key)
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(model, chain_type="stuff", prompt=prompt)
     return chain
